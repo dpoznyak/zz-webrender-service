@@ -19,6 +19,7 @@ export default (routes) => {
 
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
+  app.use(bodyParser.text({type:'text/html'}))
   app.use(routes)
   app.use(queryErrorHandler())
   app.use(bodyErrorHandler())

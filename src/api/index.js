@@ -7,7 +7,7 @@ var convert = htmlConvert();
 
 var http = require('http');
 var fs = require('fs');
-
+var Readable = require('stream').Readable;
 
 const router = new Router()
 
@@ -49,6 +49,22 @@ router.get('/render', function (req, res) {
     else
         res.sendStatus(400);
 });
+
+router.post('/render', function(req, res) {
+
+        console.log(req.body);
+
+    var s = new Readable
+    s.push(req.body);
+    s.push(null);
+
+    var converted = s.pipe(convert())
+    converted.on("error", function (e) {
+        res.status(500).send(e.toString());
+
+    });
+    converted.pipe(res);
+})
 
 router.get('/test-dl', function (req, res) {
     var url = req.query.url;
