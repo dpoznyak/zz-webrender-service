@@ -5,6 +5,10 @@ var htmlConvert = require('html-convert');
 
 var convert = htmlConvert();
 
+var http = require('http');
+var fs = require('fs');
+
+
 const router = new Router()
 
 /**
@@ -44,6 +48,19 @@ router.get('/render', function (req, res) {
     }
     else
         res.sendStatus(400);
+});
+
+router.get('/test-dl', function (req, res) {
+    var url = req.query.url;
+    if (url) {
+        var file = fs.createWriteStream(process.env.TEMP + "/file.jpg");
+        var request = http.get(url, function (response) {
+            response.pipe(file);
+        });
+    }
+    else
+        res.sendStatus(400);
+
 });
 
 export default router
