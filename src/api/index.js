@@ -57,6 +57,7 @@ router.get('/test-dl', function (req, res) {
         var request = http.get(url, function (response) {
             response.pipe(file);
         });
+        res.sendStatus(200);
     }
     else
         res.sendStatus(400);
